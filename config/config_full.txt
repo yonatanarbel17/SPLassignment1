@@ -1,0 +1,16 @@
+# settlement <settlement_name> <settlement_type>
+settlement KfarSPL 0
+settlement TelSPL 1
+settlement SPLCity 2
+
+# facility <facility_name> <category> <price> <lifeq_score> <eco_score> <env_score>
+facility Hospital 0 5 3 1 0
+facility Park 2 3 2 0 4
+facility Factory 1 4 0 5 0
+facility School 0 3 4 1 1
+facility Mall 1 5 1 5 0
+
+# plan <settlement_name> <selection_policy>
+plan KfarSPL nve
+plan TelSPL bal
+plan SPLCity eco

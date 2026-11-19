@@ -1,23 +1,38 @@
-# Please implement your Makefile rules and targets below.
-# Customize this file to define how to build your project.
+# SPL Assignment 1 - Simulation
+# Targets:  all (default) | compile | link | clean
+
+CXX      := g++
+CXXFLAGS := -g -Wall -Weffc++ -std=c++11 -Iinclude
+SRC_DIR  := src
+BIN_DIR  := bin
+TARGET   := $(BIN_DIR)/simulation
+
+OBJS := $(BIN_DIR)/main.o \
+        $(BIN_DIR)/Settlement.o \
+        $(BIN_DIR)/Facility.o \
+        $(BIN_DIR)/SelectionPolicy.o \
+        $(BIN_DIR)/Plan.o \
+        $(BIN_DIR)/Simulation.o \
+        $(BIN_DIR)/Action.o \
+        $(BIN_DIR)/Auxiliary.o
 
 all: clean link
 
 link: compile
-	g++ -o bin/simulation bin/main.o bin/Settlement.o bin/Facility.o bin/SelectionPolicy.o bin/Plan.o bin/Simulation.o bin/Action.o bin/Auxiliary.o
+	@echo "linking executable"
+	$(CXX) -o $(TARGET) $(OBJS)
 
-compile: src/Action.cpp src/Auxiliary.cpp src/Facility.cpp src/main.cpp src/Plan.cpp src/SelectionPolicy.cpp src/Settlement.cpp src/Simulation.cpp
-	@echo "compiling source code"
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/main.o src/main.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Settlement.o src/Settlement.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Facility.o src/Facility.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/SelectionPolicy.o src/SelectionPolicy.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Plan.o src/Plan.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Simulation.o src/Simulation.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Action.o src/Action.cpp
-	g++ -g -Wall -Weffc++ -std=c++11 -I./include -c -o bin/Auxiliary.o src/Auxiliary.cpp
+compile: $(OBJS)
+
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BIN_DIR)
+	@echo "compiling $<"
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
 
 clean:
 	@echo "cleaning bin directory"
-	rm -f bin/*
+	@rm -rf $(BIN_DIR)
 
+.PHONY: all link compile clean
